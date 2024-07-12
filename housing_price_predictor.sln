@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "housing_price_predictor", "housing_price_predictor.pyproj", "{F1185C82-10DD-4A6A-8768-6AE8D51CAAA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1185C82-10DD-4A6A-8768-6AE8D51CAAA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1185C82-10DD-4A6A-8768-6AE8D51CAAA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DD6BD2E-AB99-4922-81CA-D11C25BD59B5}
+	EndGlobalSection
+EndGlobal
