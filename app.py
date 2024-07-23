@@ -3,7 +3,11 @@ import pandas as pd
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 from sklearn.datasets import fetch_california_housing
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 # Load the model
 model = joblib.load('housing_price_model.pkl')
@@ -54,7 +58,7 @@ st.subheader('Data Overview')
 st.write(df.describe())
 
 st.subheader('Correlation Heatmap')
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(df.corr(), annot=True, ax=ax)
 st.pyplot(fig)
 
@@ -63,10 +67,34 @@ fig, ax = plt.subplots()
 sns.histplot(df['PRICE'], bins=30, kde=True, ax=ax)
 st.pyplot(fig)
 
-st.subheader('Scatter Plots')
-features = ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']
-for feature in features:
-    fig, ax = plt.subplots()
-    sns.scatterplot(x=df[feature], y=df['PRICE'], ax=ax)
-    ax.set_title(f'Price vs {feature}')
-    st.pyplot(fig)
+# Sampling data for pair plots to improve performance
+sampled_df = df.sample(n=500, random_state=42)
+
+# Split pairplots into two separate plots for better readability
+st.subheader('Pairplot of First Half of Features')
+pairplot_features_1 = ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'PRICE']
+fig = sns.pairplot(sampled_df[pairplot_features_1], diag_kind='kde')
+st.pyplot(fig)
+
+st.subheader('Pairplot of Second Half of Features')
+pairplot_features_2 = ['Population', 'AveOccup', 'Latitude', 'Longitude', 'PRICE']
+fig = sns.pairplot(sampled_df[pairplot_features_2], diag_kind='kde')
+st.pyplot(fig)
+
+# Feature importance plot
+st.subheader('Feature Importance')
+model = LinearRegression()
+model.fit(df.drop('PRICE', axis=1), df['PRICE'])
+importance = model.coef_
+
+fig, ax = plt.subplots()
+sns.barplot(x=importance, y=df.columns[:-1], ax=ax)
+ax.set_title('Feature Importance')
+st.pyplot(fig)
+
+# Performance Metrics
+st.subheader('Model Performance')
+X_train, X_test, y_train, y_test = train_test_split(df.drop('PRICE', axis=1), df['PRICE'], test_size=0.2, random_state=42)
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+st.write(f'Mean Squared Error: {mse:.2f}')
